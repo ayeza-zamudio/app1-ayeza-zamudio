@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block title %}
+ACERCA
+{% endblock %}
+{% block body %}
+{% for resultado in variable %}
+<p>{{resultado.nombre}},{{resultado.apellido}}</p>
+{% endfor %}
+{% endblock %}
