@@ -1,6 +1,10 @@
 from flask import Flask, render_template, url_for, redirect, request
+
 from flask_bootstrap import Bootstrap
+#Modulo para manejo del ORM SQALCHEMY
 from flask_sqlalchemy import SQLAlchemy
+#manejo de fechas  con python
+from datetime import datetime
 
 app = Flask(__name__) #<----Es el objeto que nos dice que es una aplicacion flask
 app.debug = True
@@ -24,11 +28,14 @@ lista =["Nosotros","Contacto","Preguntas frecuentes"]
 
 @app.route('/', methods=['GET', 'POST']) 
 def index():
+    print("index")
     if request.method == "POST":
         print("request")
         campo_nombre = request.form['nombre']
         campo_apellido = request.form['apellido']
-        alumno = Alumnos(nombre=campo_nombre,apellido=campo_apellido)
+        alumno = Alumnos(  
+                nombre=campo_nombre,
+                apellido=campo_apellido)
         db.session.add(alumno)
         db.session.commit()
         mensaje = "Alumno Registrado"
@@ -41,6 +48,28 @@ def acerca():          #<---Nombre de la funcion
     consulta = Alumnos.query.all()
     print(consulta)
     return render_template("acerca.html", variable = consulta) #<---Nombre del archivo html
+
+@app.route('/editar/<id>')
+def editar(id):
+    alumno = Alumnos.query.filter_by(id=int(id)).first()
+    return render_template("editar.html", alumno = alumno)
+
+@app.route('/actualizar', methods=['POST'])
+def actualizar():
+    if request.method == "POST":
+        consulta = Alumnos.query.get(request.form['id'])
+        consulta.nombre = request.form['nombre'] 
+        consulta.apellido = request.form['apellido']
+        db.session.commit()
+        return redirect('/acerca')
+
+
+@app.route('/eliminar/<id>')
+def eliminar(id):
+     alumno = Alumnos.query.filter_by(id=int(id)).delete()
+     db.session.commit()
+     return redirect('/acerca')    
+
 
 if __name__ == "__main__":
     app.run()

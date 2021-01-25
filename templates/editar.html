@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+   {% block body %}
+   <div class = "jumbotron"
+   <h1>Editar Alumno </h1>
+
+    <form action="/actualizar" method="POST">
+        <input type="hidden" name="id" id="id" value={{alumno.id}}>
+        <input type="text" name="nombre" id="nombre" value={{alumno.nombre}}>
+        <input type="text" name="apellido" id="apellido" value={{alumno.apellido}}>
+        <input type="submit" class="btn btn-primary" value="Actualizar Registro">
+
+    </form>
+   <p>{{mensaje}}</p>
+</div>
+{% endblock %}
+{% endblock %}

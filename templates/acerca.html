@@ -3,7 +3,32 @@
 ACERCA
 {% endblock %}
 {% block body %}
-{% for resultado in variable %}
-<p>{{resultado.nombre}},{{resultado.apellido}}</p>
-{% endfor %}
-{% endblock %}
+<table>
+    <thead>
+        <tr>
+            <th> No. </th>
+            <th> Nombre </th>
+            <th> Apellidos </th>
+
+        </tr>
+    </thead>
+    <tbody>
+
+
+        {% for resultado in variable %}
+        <tr>
+            <!--    <p>{{resultado.nombre}},{{resultado.apellido}}</p>-->
+            <td>{{resultado.id}}</td>
+            <td>{{resultado.nombre}}</td>
+            <td>{{resultado.apellido}}</td>
+            <td>
+                <a href="/editar/{{resultado.id }}">Editar</a>
+                <a href="/eliminar/{{resultado.id }}">Eliminar</a>
+            </td>
+        </tr>
+
+        {% endfor %}
+    </tbody>
+    </table>
+    
+        {% endblock %}
